@@ -1,68 +1,223 @@
 import {
   Controller,
   Get,
-  UseGuards,
-  UseFilters,
   Post,
-  Body,
-  Param,
   Patch,
   Delete,
+  Body,
+  Param,
+  UseGuards,
+  HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
-import {
-  // AuthenticatedGuard,
-  JwtGuard,
-} from 'src/auth/guard';
+import { JwtGuard } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
 import { AddBlogDto, EditBlogDto } from './dto';
-import { HttpExceptionFilter } from 'src/exception';
+import { Response } from 'express';
 
 @Controller('blogs')
 export class BlogController {
   constructor(private blogService: BlogService) {}
 
-  @Post('add_blog')
-  @UseFilters(HttpExceptionFilter)
-  @UseGuards(JwtGuard) //individual route
-  addtask(@Body() dto: AddBlogDto, @GetUser() user) {
-    const userInfo = user.data;
-    return this.blogService.addBlog(dto, userInfo);
+  @Post('add')
+  @UseGuards(JwtGuard)
+  async addBlog(
+    @Body() dto: AddBlogDto,
+    @GetUser() user,
+    @Res() res: Response,
+  ) {
+    try {
+      const userInfo = user.data;
+      const newBlog = await this.blogService.addBlog(dto, userInfo);
+      res.status(HttpStatus.CREATED).json({
+        status: 'success',
+        msg: 'Blog created successfully',
+        data: newBlog,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        status: 'error',
+        msg: error.message,
+      });
+    }
   }
 
-  @Get('get_blogs')
-  @UseFilters(HttpExceptionFilter)
+  @Get()
   @UseGuards(JwtGuard)
-  gettasks(@GetUser() user) {
-    const userInfo = user.data;
-    return this.blogService.getBlogs(userInfo);
+  async getBlogs(@GetUser() user, @Res() res: Response) {
+    try {
+      const userInfo = user.data;
+      const blogs = await this.blogService.getBlogs(userInfo);
+      res.status(HttpStatus.OK).json({
+        status: 'success',
+        msg: 'Fetched all blogs',
+        data: blogs,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        status: 'error',
+        msg: error.message,
+      });
+    }
   }
 
-  @Get('get_blog/:id')
-  @UseFilters(HttpExceptionFilter)
+  @Get(':id')
   @UseGuards(JwtGuard)
-  gettask(@Param('id') id: string, @GetUser() user) {
-    const userInfo = user.data;
-    return this.blogService.getBlogById(id, userInfo);
+  async getBlogById(
+    @Param('id') id: string,
+    @GetUser() user,
+    @Res() res: Response,
+  ) {
+    try {
+      const userInfo = user.data;
+      const blog = await this.blogService.getBlogById(id, userInfo);
+      res.status(HttpStatus.OK).json({
+        status: 'success',
+        msg: 'Fetched blog details',
+        data: blog,
+      });
+    } catch (error) {
+      res.status(HttpStatus.NOT_FOUND).json({
+        status: 'error',
+        msg: error.message,
+      });
+    }
   }
 
-  @Patch('update_blog/:id')
-  @UseFilters(HttpExceptionFilter)
+  @Patch(':id')
   @UseGuards(JwtGuard)
-  updatetask(
+  async updateBlog(
     @Param('id') id: string,
     @Body() dto: EditBlogDto,
     @GetUser() user,
+    @Res() res: Response,
   ) {
-    const userInfo = user.data;
-    return this.blogService.editBlog(id, dto, userInfo);
+    try {
+      const userInfo = user.data;
+      const updatedBlog = await this.blogService.editBlog(id, dto, userInfo);
+      res.status(HttpStatus.OK).json({
+        status: 'success',
+        msg: 'Blog updated successfully',
+        data: updatedBlog,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        status: 'error',
+        msg: error.message,
+      });
+    }
   }
 
-  @Delete('delete_blog/:id')
-  @UseFilters(HttpExceptionFilter)
+  @Delete(':id')
   @UseGuards(JwtGuard)
-  deletetask(@Param('id') id: string, @GetUser() user) {
-    const userInfo = user.data;
-    return this.blogService.deleteBlog(id, userInfo);
+  async deleteBlog(
+    @Param('id') id: string,
+    @GetUser() user,
+    @Res() res: Response,
+  ) {
+    try {
+      const userInfo = user.data;
+      const deletedBlog = await this.blogService.deleteBlog(id, userInfo);
+      res.status(HttpStatus.OK).json({
+        status: 'success',
+        msg: `Blog with ID ${deletedBlog.id} deleted successfully`,
+      });
+    } catch (error) {
+      res.status(HttpStatus.NOT_FOUND).json({
+        status: 'error',
+        msg: error.message,
+      });
+    }
   }
 }
+
+// import {
+//   Controller,
+//   Get,
+//   UseGuards,
+//   UseFilters,
+//   Post,
+//   Body,
+//   Param,
+//   Patch,
+//   Delete,
+// } from '@nestjs/common';
+// import { BlogService } from './blog.service';
+// import { JwtGuard } from 'src/auth/guard';
+// import { GetUser } from 'src/auth/decorator';
+// import { AddBlogDto, EditBlogDto } from './dto';
+// import { HttpExceptionFilter } from 'src/exception';
+
+// @Controller('blogs')
+// export class BlogController {
+//   constructor(private blogService: BlogService) {}
+
+//   @Post('add_blog')
+//   @UseFilters(HttpExceptionFilter)
+//   @UseGuards(JwtGuard) // individual route
+//   async addBlog(@Body() dto: AddBlogDto, @GetUser() user) {
+//     const userInfo = user.data;
+//     const newBlog = await this.blogService.addBlog(dto, userInfo);
+//     return {
+//       status: 'success',
+//       msg: 'Blog created',
+//       data: newBlog,
+//     };
+//   }
+
+//   @Get('get_blogs')
+//   @UseFilters(HttpExceptionFilter)
+//   @UseGuards(JwtGuard)
+//   async getBlogs(@GetUser() user) {
+//     const userInfo = user.data;
+//     const blogs = await this.blogService.getBlogs(userInfo);
+//     return {
+//       status: 'success',
+//       msg: 'All blogs',
+//       data: blogs,
+//     };
+//   }
+
+//   @Get('get_blog/:id')
+//   @UseFilters(HttpExceptionFilter)
+//   @UseGuards(JwtGuard)
+//   async getBlogById(@Param('id') id: string, @GetUser() user) {
+//     const userInfo = user.data;
+//     const blog = await this.blogService.getBlogById(id, userInfo);
+//     return {
+//       status: 'success',
+//       msg: 'Blog details',
+//       data: blog,
+//     };
+//   }
+
+//   @Patch('update_blog/:id')
+//   @UseFilters(HttpExceptionFilter)
+//   @UseGuards(JwtGuard)
+//   async updateBlog(
+//     @Param('id') id: string,
+//     @Body() dto: EditBlogDto,
+//     @GetUser() user,
+//   ) {
+//     const userInfo = user.data;
+//     const updatedBlog = await this.blogService.editBlog(id, dto, userInfo);
+//     return {
+//       status: 'success',
+//       msg: 'Blog updated',
+//       data: updatedBlog,
+//     };
+//   }
+
+//   @Delete('delete_blog/:id')
+//   @UseFilters(HttpExceptionFilter)
+//   @UseGuards(JwtGuard)
+//   async deleteBlog(@Param('id') id: string, @GetUser() user) {
+//     const userInfo = user.data;
+//     const deletedBlog = await this.blogService.deleteBlog(id, userInfo);
+//     return {
+//       status: 'success',
+//       msg: `Blog with id: ${deletedBlog.id} was deleted.`,
+//     };
+//   }
+// }

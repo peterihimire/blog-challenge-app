@@ -1,4 +1,5 @@
 import { IsString, IsOptional, IsDate } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class EditBlogDto {
   @IsString()
@@ -27,5 +28,6 @@ export class EditBlogDto {
 
   @IsOptional()
   @IsDate()
+  @Type(() => Date)
   publishedDate: Date;
 }

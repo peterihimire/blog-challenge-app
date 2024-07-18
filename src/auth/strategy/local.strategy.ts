@@ -15,16 +15,16 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     private prisma: PrismaService,
   ) {
     super({
-      usernameField: 'email',
-    }); // Replace 'email' with the actual field used for the username
+      // usernameField: 'username',
+    });
   }
 
-  async validate(email: string, password: string): Promise<any> {
-    const user = await this.authService.verifyUser(email, password);
+  async validate(username: string, password: string): Promise<any> {
+    const user = await this.authService.verifyUser(username, password);
     if (!user) {
       throw new UnauthorizedException();
     }
-
+    console.log('this is user from localstrategy...', user);
     return user;
   }
 }

@@ -1,20 +1,37 @@
-import { Controller, Get, UseGuards, UseFilters } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseGuards,
+  Res,
+  HttpStatus,
+  UseFilters,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUser } from 'src/auth/decorator';
-import { User } from '@prisma/client';
-import { HttpExceptionFilter } from 'src/exception';
 import { JwtGuard } from 'src/auth/guard';
+import { HttpExceptionFilter } from 'src/exception';
+import { Response } from 'express';
 
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseFilters(HttpExceptionFilter)
-  @UseGuards(JwtGuard) //individual route
   @Get('user_info')
-  userInfo(@GetUser() user: User) {
-    console.log('User object from user controller...', user);
-    return this.userService.userInfo(user);
-    // return user;
+  @UseGuards(JwtGuard)
+  @UseFilters(HttpExceptionFilter)
+  async userInfo(@GetUser() user, @Res() res: Response) {
+    try {
+      const userInfo = await this.userService.userInfo(user);
+      res.status(HttpStatus.OK).json({
+        status: 'success',
+        msg: 'User details fetched successfully',
+        data: userInfo,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        status: 'error',
+        msg: error.message,
+      });
+    }
   }
 }
