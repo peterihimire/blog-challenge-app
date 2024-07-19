@@ -21,8 +21,7 @@ The Blog Challenge API is a RESTful service for managing blogs. It includes func
   - Authentication
   - Blog
   - User
-- [Validation & Error Handling](#validation-&-error-handling)
-- [Running Tests](#running-tests)
+- [Error Handling](#validation-&-error-handling)
 - [Contributing](#contributing)
 
 ## Getting Started
@@ -84,7 +83,8 @@ Follow these instructions to set up the project on your local machine.
     ```
 
 2.  Access the API documentation:
-    Open your browser and navigate to `http://localhost:3030/api/bookchallenge/v1/api-docs` to view the API documentation once connected to the localhost server or visit postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sA3dvjsbN) to this app.
+
+    Vsit the postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sA3kUFhDT) of this blog app.
 
 ## API Endpoints
 
@@ -152,6 +152,31 @@ Authorization: Bearer <token>
       "email": "peterihimire@gmail.com",
       "acctId": "51a2dee1-b89d-42db-bf85-74380e5ea000",
       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWEyZGVlMS1iODlkLTQyZGItYmY4NS03NDM4MGU1ZWEwMDAiLCJlbWFpbCI6InBldGVyaWhpbWlyZUBnbWFpbC5jb20iLCJpYXQiOjE3MjEzNzM5OTcsImV4cCI6MTcyMTQ0NTk5N30.JnBWEl93qojw5FteXgr7X9guMt0NOy9H9PqtpHGTWZo"
+    }
+  }
+  ```
+
+  - **Refresh Token**:
+
+- URL: /api/auth/refresh-token
+- Method: POST
+- Auth Required: No
+- Request body:
+
+  ```json
+  {
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNzc2NGNhMi03MTA0LTQyMmItYjU4MC01Yjc3MWI0Yzg4ODIiLCJlbWFpbCI6InBldGVyaWhpbWlyZUBnbWFpbC5jb20iLCJpYXQiOjE3MjE0MTM2MzQsImV4cCI6MTcyMjAxODQzNH0.usdmLL9hEYcc_vKAo8ueZeOCvZfrFgkx1DbolyQb4ME"
+  }
+  ```
+
+- Response:
+
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNzc2NGNhMi03MTA0LTQyMmItYjU4MC01Yjc3MWI0Yzg4ODIiLCJlbWFpbCI6InBldGVyaWhpbWlyZUBnbWFpbC5jb20iLCJpYXQiOjE3MjE0MTM2NTgsImV4cCI6MTcyMTQxNDU1OH0.zTxDP-MC-EYAlr21Dc7DcFlM_mpn3_FF9-Lo2OF1JLg",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNzc2NGNhMi03MTA0LTQyMmItYjU4MC01Yjc3MWI0Yzg4ODIiLCJlbWFpbCI6InBldGVyaWhpbWlyZUBnbWFpbC5jb20iLCJpYXQiOjE3MjE0MTM2NTgsImV4cCI6MTcyMjAxODQ1OH0.jN9Km5pXKnH8mKjG9vPTuddN5QZXlWJjydVUtESPsi4"
     }
   }
   ```

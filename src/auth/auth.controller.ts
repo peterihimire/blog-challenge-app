@@ -27,8 +27,10 @@ export class AuthController {
   @Post('signin')
   async login(@Body() dto: AuthDto, @Res() res: Response) {
     try {
-      const { user, token } = await this.authService.login(dto);
-      res.cookie('token', token.access_token, {
+      const { user, accessToken, refreshToken } =
+        await this.authService.login(dto);
+
+      res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: false,
         sameSite: 'lax',
@@ -37,8 +39,8 @@ export class AuthController {
         status: 'success',
         msg: 'Login successful!',
         data: {
-          ...user,
-          ...token,
+          user,
+          accessToken,
         },
       });
     } catch (error) {
@@ -49,9 +51,34 @@ export class AuthController {
     }
   }
 
+  @Post('refresh-token')
+  async refreshToken(
+    @Body('refreshToken') refreshToken: string,
+    @Res() res: Response,
+  ) {
+    try {
+      const { accessToken, newRefreshToken } =
+        await this.authService.refreshToken(refreshToken);
+      res.cookie('refreshToken', newRefreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+      });
+      res.status(HttpStatus.OK).json({
+        status: 'success',
+        data: { accessToken, refreshToken: newRefreshToken },
+      });
+    } catch (error) {
+      res.status(HttpStatus.UNAUTHORIZED).json({
+        status: 'error',
+        msg: 'Invalid refresh token',
+      });
+    }
+  }
+
   @Post('signout')
   signout(@Res() res: Response) {
-    res.clearCookie('token');
+    res.clearCookie('refreshToken');
     res.status(HttpStatus.OK).json({
       status: 'success',
       msg: 'Logout successful!',

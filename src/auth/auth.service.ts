@@ -65,36 +65,61 @@ export class AuthService {
       delete user.createdAt;
       delete user.updatedAt;
 
-      const token = await this.signToken(user.acctId, user.email);
+      const accessToken = await this.signAccessToken(user.acctId, user.email);
+      const refreshToken = await this.signRefreshToken(user.acctId, user.email);
 
-      return {
-        user,
-        token,
-      };
+      return { user, accessToken, refreshToken };
     } catch (error) {
       console.error('Login error:', error);
       throw error;
     }
   }
 
-  async signToken(
-    acctId: string,
-    email: string,
-  ): Promise<{ access_token: string }> {
-    const payload = {
-      sub: acctId,
-      email,
-    };
+  async signAccessToken(acctId: string, email: string): Promise<string> {
+    const payload = { sub: acctId, email };
     const secret = this.config.get('JWT_SECRET');
 
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '20h',
+      expiresIn: '15m',
       secret: secret,
     });
 
-    return {
-      access_token: token,
-    };
+    return token;
+  }
+
+  async signRefreshToken(acctId: string, email: string): Promise<string> {
+    const payload = { sub: acctId, email };
+    const secret = this.config.get('JWT_SECRET');
+
+    const token = await this.jwt.signAsync(payload, {
+      expiresIn: '7d',
+      secret: secret,
+    });
+
+    return token;
+  }
+
+  async refreshToken(
+    refreshToken: string,
+  ): Promise<{ accessToken: string; newRefreshToken: string }> {
+    try {
+      const payload = this.jwt.verify(refreshToken, {
+        secret: this.config.get('JWT_SECRET'),
+      });
+
+      const newAccessToken = await this.signAccessToken(
+        payload.sub,
+        payload.email,
+      );
+      const newRefreshToken = await this.signRefreshToken(
+        payload.sub,
+        payload.email,
+      );
+
+      return { accessToken: newAccessToken, newRefreshToken: newRefreshToken };
+    } catch (error) {
+      throw new ForbiddenException('Invalid refresh token');
+    }
   }
 
   async verifyUser(username: string, password: string): Promise<{ data: any }> {
