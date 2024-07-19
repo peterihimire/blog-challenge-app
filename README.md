@@ -369,3 +369,13 @@ The API uses standard HTTP status codes to indicate the success or failure of an
 - 403 Forbidden: The request is understood, but it has been refused or access is not allowed.
 - 404 Not Found: The requested resource could not be found.
 - 409 Conflict: The request could not be completed due to a conflict with the current state of the resource.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Create a pull request.

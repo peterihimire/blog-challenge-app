@@ -22,7 +22,7 @@ export class UserService {
           email: user.data.email,
         },
         include: {
-          blogs: {
+          posts: {
             select: {
               userId: false,
               id: false,

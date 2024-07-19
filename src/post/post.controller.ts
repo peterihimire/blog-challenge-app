@@ -10,30 +10,30 @@ import {
   HttpStatus,
   Res,
 } from '@nestjs/common';
-import { BlogService } from './blog.service';
+import { PostService } from './post.service';
 import { JwtGuard } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
-import { AddBlogDto, EditBlogDto } from './dto';
+import { AddPostDto, EditPostDto } from './dto';
 import { Response } from 'express';
 
-@Controller('blogs')
-export class BlogController {
-  constructor(private blogService: BlogService) {}
+@Controller('posts')
+export class PostController {
+  constructor(private postService: PostService) {}
 
   @Post('add')
   @UseGuards(JwtGuard)
-  async addBlog(
-    @Body() dto: AddBlogDto,
+  async addPost(
+    @Body() dto: AddPostDto,
     @GetUser() user,
     @Res() res: Response,
   ) {
     try {
       const userInfo = user.data;
-      const newBlog = await this.blogService.addBlog(dto, userInfo);
+      const newPost = await this.postService.addPost(dto, userInfo);
       res.status(HttpStatus.CREATED).json({
         status: 'success',
-        msg: 'Blog created successfully',
-        data: newBlog,
+        msg: 'Post created successfully',
+        data: newPost,
       });
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
@@ -45,14 +45,14 @@ export class BlogController {
 
   @Get()
   @UseGuards(JwtGuard)
-  async getBlogs(@GetUser() user, @Res() res: Response) {
+  async getPosts(@GetUser() user, @Res() res: Response) {
     try {
       const userInfo = user.data;
-      const blogs = await this.blogService.getBlogs(userInfo);
+      const posts = await this.postService.getPosts(userInfo);
       res.status(HttpStatus.OK).json({
         status: 'success',
-        msg: 'Fetched all blogs',
-        data: blogs,
+        msg: 'Fetched all posts',
+        data: posts,
       });
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
@@ -64,18 +64,18 @@ export class BlogController {
 
   @Get(':id')
   @UseGuards(JwtGuard)
-  async getBlogById(
+  async getPostById(
     @Param('id') id: string,
     @GetUser() user,
     @Res() res: Response,
   ) {
     try {
       const userInfo = user.data;
-      const blog = await this.blogService.getBlogById(id, userInfo);
+      const post = await this.postService.getPostById(id, userInfo);
       res.status(HttpStatus.OK).json({
         status: 'success',
-        msg: 'Fetched blog details',
-        data: blog,
+        msg: 'Fetched post details',
+        data: post,
       });
     } catch (error) {
       res.status(HttpStatus.NOT_FOUND).json({
@@ -87,19 +87,19 @@ export class BlogController {
 
   @Patch(':id')
   @UseGuards(JwtGuard)
-  async updateBlog(
+  async updatePost(
     @Param('id') id: string,
-    @Body() dto: EditBlogDto,
+    @Body() dto: EditPostDto,
     @GetUser() user,
     @Res() res: Response,
   ) {
     try {
       const userInfo = user.data;
-      const updatedBlog = await this.blogService.editBlog(id, dto, userInfo);
+      const updatedPost = await this.postService.editPost(id, dto, userInfo);
       res.status(HttpStatus.OK).json({
         status: 'success',
-        msg: 'Blog updated successfully',
-        data: updatedBlog,
+        msg: 'Post updated successfully',
+        data: updatedPost,
       });
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
@@ -111,17 +111,17 @@ export class BlogController {
 
   @Delete(':id')
   @UseGuards(JwtGuard)
-  async deleteBlog(
+  async deletePost(
     @Param('id') id: string,
     @GetUser() user,
     @Res() res: Response,
   ) {
     try {
       const userInfo = user.data;
-      const deletedBlog = await this.blogService.deleteBlog(id, userInfo);
+      const deletedPost = await this.postService.deletePost(id, userInfo);
       res.status(HttpStatus.OK).json({
         status: 'success',
-        msg: `Blog with ID ${deletedBlog.id} deleted successfully`,
+        msg: `Post with ID ${deletedPost.id} deleted successfully`,
       });
     } catch (error) {
       res.status(HttpStatus.NOT_FOUND).json({

@@ -1,31 +1,31 @@
-import { IsNotEmpty, IsString, IsOptional, IsDate } from 'class-validator';
+import { IsString, IsOptional, IsDate } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class AddBlogDto {
+export class EditPostDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   content: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   excerpt: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   slug: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   categories: string[];
 
   @IsString()
   @IsOptional()
   status: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsDate()
   @Type(() => Date)
   publishedDate: Date;
