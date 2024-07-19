@@ -18,9 +18,8 @@ export class EditBlogDto {
   @IsOptional()
   slug: string;
 
-  @IsString()
   @IsOptional()
-  categories: string;
+  categories: string[];
 
   @IsString()
   @IsOptional()

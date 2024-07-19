@@ -4,13 +4,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { User } from '@prisma/client';
 import { AddBlogDto, EditBlogDto } from './dto';
 
 @Injectable()
 export class BlogService {
   constructor(private prisma: PrismaService) {}
 
-  async addBlog(dto: AddBlogDto, userInfo: any) {
+  async addBlog(dto: AddBlogDto, userInfo: User) {
     const foundBlog = await this.prisma.blog.findFirst({
       where: {
         title: dto.title,
@@ -45,7 +46,7 @@ export class BlogService {
     return newBlog;
   }
 
-  async getBlogs(userInfo: any) {
+  async getBlogs(userInfo: User) {
     const allBlogs = await this.prisma.blog.findMany({
       where: {
         userId: userInfo.id,
@@ -61,13 +62,12 @@ export class BlogService {
       delete blog.userId;
 
       return blog;
-      // return sanitizedBlog;
     });
 
     return sanitizedBlogs;
   }
 
-  async getBlogById(id: string, userInfo: any) {
+  async getBlogById(id: string, userInfo: User) {
     const blog = await this.prisma.blog.findUnique({
       where: {
         uuid: id,
@@ -77,17 +77,15 @@ export class BlogService {
 
     if (!blog) throw new NotFoundException('Blog does not exist!');
 
-    // const { id: blogId, createdAt, updatedAt, userId, ...sanitizedBlog } = blog;
     delete blog.id;
     delete blog.createdAt;
     delete blog.updatedAt;
     delete blog.userId;
 
     return blog;
-    // return sanitizedBlog;
   }
 
-  async editBlog(id: string, dto: EditBlogDto, userInfo: any) {
+  async editBlog(id: string, dto: EditBlogDto, userInfo: User) {
     const blog = await this.prisma.blog.findUnique({
       where: {
         uuid: id,
@@ -120,7 +118,7 @@ export class BlogService {
     return updatedBlog;
   }
 
-  async deleteBlog(id: string, userInfo: any) {
+  async deleteBlog(id: string, userInfo: User) {
     const blog = await this.prisma.blog.findUnique({
       where: {
         uuid: id,

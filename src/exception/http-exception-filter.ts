@@ -26,8 +26,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         status === HttpStatus.UNAUTHORIZED
           ? 'You are not authenticated!'
           : message['message'],
-      // timestamp: new Date().toISOString(),
-      // path: request.url,
     });
   }
 }

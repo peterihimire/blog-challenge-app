@@ -18,9 +18,8 @@ export class AddBlogDto {
   @IsNotEmpty()
   slug: string;
 
-  @IsString()
   @IsNotEmpty()
-  categories: string;
+  categories: string[];
 
   @IsString()
   @IsOptional()

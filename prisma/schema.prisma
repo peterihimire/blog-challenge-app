@@ -38,7 +38,7 @@ model Blog {
   content     String?
   excerpt     String?
   slug     String?
-  categories     String?
+  categories     String[]
   publishedDate  DateTime?
   status   String?
   uuid     String       @unique @default(uuid())
@@ -48,3 +48,4 @@ model Blog {
 
   @@map("blogs")
 }
+

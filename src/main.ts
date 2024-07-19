@@ -28,5 +28,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(port);
+
+  return app;
 }
-bootstrap();
+export default bootstrap();

@@ -1,11 +1,21 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+interface userData {
+  status: string;
+  msg: string;
+  data: {
+    id: number;
+    username: string;
+    email: string;
+    acctId: string;
+  };
+}
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async userInfo(user: any) {
+  async userInfo(user: userData) {
     try {
       const acct = await this.prisma.user.findUnique({
         where: {
@@ -40,7 +50,7 @@ export class UserService {
     } catch (error) {
       throw error;
     } finally {
-      await this.prisma.$disconnect(); // Disconnect the Prisma client
+      await this.prisma.$disconnect();
     }
   }
 }

@@ -30,7 +30,7 @@ export class AuthController {
       const { user, token } = await this.authService.login(dto);
       res.cookie('token', token.access_token, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: 'lax',
       });
       res.status(HttpStatus.OK).json({
