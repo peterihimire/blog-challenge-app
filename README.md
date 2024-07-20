@@ -159,10 +159,10 @@ Authorization: Bearer <token>
 
   - **Refresh Token**:
 
-- URL: /api/auth/refresh-token
-- Method: POST
-- Auth Required: No
-- Request body:
+  - URL: /api/auth/refresh-token
+  - Method: POST
+  - Auth Required: No
+  - Request body:
 
   ```json
   {
