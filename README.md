@@ -1,13 +1,13 @@
-# Blog Challenge API
+# Post Challenge API
 
 ## Overview
 
-The Blog Challenge API is a RESTful service for managing blogs. It includes functionalities for creating, reading, updating, and deleting blog entries, as well as retrieving user details.
+The Post Challenge API is a RESTful service for managing posts. It includes functionalities for creating, reading, updating, and deleting post entries, as well as retrieving user details.
 
 ## Features
 
 - User authentication and authorization
-- CRUD operations for blogs and authors
+- CRUD operations for posts and authors
 - Comprehensive error handling
 - Unit & Integration tests for services and API endpoints
 
@@ -19,7 +19,7 @@ The Blog Challenge API is a RESTful service for managing blogs. It includes func
 - [Running the Server](#running-the-server)
 - [API Endpoints](#api-endpoints)
   - Authentication
-  - Blog
+  - Post
   - User
 - [Error Handling](#validation-&-error-handling)
 - [Contributing](#contributing)
@@ -44,13 +44,13 @@ Follow these instructions to set up the project on your local machine.
 1.  Clone the repository:
 
     ```sh
-    git clone https://github.com/peterihimire/blog-challenge-api.git
+    git clone https://github.com/peterihimire/post-challenge-api.git
     ```
 
 2.  Change directory into the project folder:
 
     ```sh
-    cd blog-challenge-api
+    cd post-challenge-api
     ```
 
 3.  Install dependencies:
@@ -84,7 +84,7 @@ Follow these instructions to set up the project on your local machine.
 
 2.  Access the API documentation:
 
-    Vsit the postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sA3kUFhDT) of this blog app.
+    Vsit the postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sA3kUFhDT) of this post app.
 
 ## API Endpoints
 
@@ -195,21 +195,21 @@ Authorization: Bearer <token>
   }
   ```
 
-### Blog
+### Post
 
-- **Create a Blog**:
+- **Create a Post**:
 
-- URL: /api/blogs/add
+- URL: /api/posts/add
 - Method: POST
 - Auth Required: Yes
 - Request body:
 
   ```json
   {
-    "title": "Blog Title",
-    "content": "Blog content",
-    "slug": "blog-title",
-    "excerpt": "Short description of the blog",
+    "title": "Post Title",
+    "content": "Post content",
+    "slug": "post-title",
+    "excerpt": "Short description of the post",
     "status": "published",
     "publishedDate": "2024-07-18",
     "categories": "failure"
@@ -221,10 +221,10 @@ Authorization: Bearer <token>
   ```json
   {
     "status": "success",
-    "msg": "Blog created",
+    "msg": "Post created",
     "data": {
       "title": "First things first",
-      "content": "Hello to Peters first blog of the day.",
+      "content": "Hello to Peters first post of the day.",
       "excerpt": "some excerpt",
       "slug": "fashion sense",
       "categories": ["fashionista"],
@@ -237,7 +237,7 @@ Authorization: Bearer <token>
 
 - **Get All Blogs**:
 
-- URL: /api/blogs
+- URL: /api/posts
 - Method: GET
 - Auth Required: Yes
 
@@ -246,11 +246,11 @@ Authorization: Bearer <token>
   ```json
   {
     "status": "success",
-    "msg": "All blogs",
+    "msg": "All posts",
     "data": [
       {
         "title": "First things first",
-        "content": "Hello to Peters first blog of the day.",
+        "content": "Hello to Peters first post of the day.",
         "excerpt": "some excerpt",
         "slug": "fashion sense",
         "categories": ["fashionista"],
@@ -262,9 +262,9 @@ Authorization: Bearer <token>
   }
   ```
 
-- **Get a Blog**:
+- **Get a Post**:
 
-- URL: /api/blogs/:id
+- URL: /api/posts/:id
 - Method: GET
 - Auth Required: Yes
 
@@ -273,10 +273,10 @@ Authorization: Bearer <token>
   ```json
   {
     "status": "success",
-    "msg": "Blog details",
+    "msg": "Post details",
     "data": {
       "title": "First things first",
-      "content": "Hello to Peters first blog of the day.",
+      "content": "Hello to Peters first post of the day.",
       "excerpt": "some excerpt",
       "slug": "fashion sense",
       "categories": ["fashionista"],
@@ -287,9 +287,9 @@ Authorization: Bearer <token>
   }
   ```
 
-- **Update a blog**:
+- **Update a post**:
 
-- URL: /api/blogs/:id
+- URL: /api/posts/:id
 - Method: PATCH
 - Auth Required: Yes
 - Request body:
@@ -297,7 +297,7 @@ Authorization: Bearer <token>
   ```json
   {
     "title": "Things first",
-    "content": "Hello to Peters first blog of the day.",
+    "content": "Hello to Peters first post of the day.",
     "excerpt": "some excerpt",
     "slug": "fashion sense",
     "categories": ["fashionista"],
@@ -311,10 +311,10 @@ Authorization: Bearer <token>
   ```json
   {
     "status": "success",
-    "msg": "Blog updated",
+    "msg": "Post updated",
     "data": {
       "title": "First things first",
-      "content": "Hello to Peters first blog of the day.",
+      "content": "Hello to Peters first post of the day.",
       "excerpt": "some excerpt",
       "slug": "fashion sense",
       "categories": ["fashionista"],
@@ -325,9 +325,9 @@ Authorization: Bearer <token>
   }
   ```
 
-- **Delete a Blog**:
+- **Delete a Post**:
 
-- URL: /api/blogs/:id
+- URL: /api/posts/:id
 - Method: DELETE
 - Auth Required: Yes
 - Request body:
@@ -337,7 +337,7 @@ Authorization: Bearer <token>
   ```json
   {
     "status": "success",
-    "msg": "Blog with id: <id> was deleted."
+    "msg": "Post with id: <id> was deleted."
   }
   ```
 
@@ -359,11 +359,11 @@ Authorization: Bearer <token>
       "username": "imolenization",
       "email": "imole@gmail.com",
       "acctId": "2b328446-b09e-491f-849b-410d85fa2ebb",
-      "blogs": [
+      "posts": [
         {
           "title": "First things first",
           "excerpt": "some excerpt",
-          "content": "Hello to Peters first blog of the day.",
+          "content": "Hello to Peters first post of the day.",
           "status": "published",
           "publishedDate": "2024-07-22T11:00:00.000Z",
           "categories": ["fashionista"],
