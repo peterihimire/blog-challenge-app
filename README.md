@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Post Challenge API is a RESTful service for managing posts. It includes functionalities for creating, reading, updating, and deleting post entries, as well as retrieving user details.
+The Post Challenge API is a RESTful service for managing posts. It includes functionalities for creating, reading, updating, and deleting blog entries, as well as retrieving user details.
 
 ## Features
 
@@ -44,13 +44,13 @@ Follow these instructions to set up the project on your local machine.
 1.  Clone the repository:
 
     ```sh
-    git clone https://github.com/peterihimire/post-challenge-api.git
+    git clone https://github.com/peterihimire/blog-challenge-api.git
     ```
 
 2.  Change directory into the project folder:
 
     ```sh
-    cd post-challenge-api
+    cd blog-challenge-api
     ```
 
 3.  Install dependencies:
@@ -84,7 +84,7 @@ Follow these instructions to set up the project on your local machine.
 
 2.  Access the API documentation:
 
-    Vsit the postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sA3kUFhDT) of this post app.
+    Vsit the postman documentation [Link](https://documenter.getpostman.com/view/12340633/2sA3kUFhDT) of this blog app.
 
 ## API Endpoints
 
