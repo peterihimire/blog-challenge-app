@@ -80,7 +80,7 @@ export class AuthService {
     const secret = this.config.get('JWT_SECRET');
 
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
+      expiresIn: '12h',
       secret: secret,
     });
 
@@ -138,11 +138,9 @@ export class AuthService {
       delete user.id;
       delete user.createdAt;
       delete user.updatedAt;
-      console.log('this is user from service...', user);
 
       return { data: user };
     } catch (error) {
-      console.error('Verify user error:', error);
       throw error;
     } finally {
       await this.prisma.$disconnect(); // Disconnect the Prisma client

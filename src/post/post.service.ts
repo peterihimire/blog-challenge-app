@@ -53,7 +53,7 @@ export class PostService {
       },
     });
 
-    if (allPosts.length === 0) throw new NotFoundException('No blogs found!');
+    if (allPosts.length === 0) throw new NotFoundException('No post found!');
 
     const sanitizedPosts = allPosts.map((post) => {
       delete post.id;
@@ -75,7 +75,7 @@ export class PostService {
       },
     });
 
-    if (!post) throw new NotFoundException('BloPost does not exist!');
+    if (!post) throw new NotFoundException('Post does not exist!');
 
     delete post.id;
     delete post.createdAt;
@@ -93,7 +93,7 @@ export class PostService {
       },
     });
 
-    if (!post) throw new NotFoundException('BloPost does not exist!');
+    if (!post) throw new NotFoundException('Post does not exist!');
 
     const updatedBloPost = await this.prisma.post.update({
       where: { uuid: id },

@@ -1,8 +1,8 @@
-# Post Challenge API
+# Blog Challenge API
 
 ## Overview
 
-The Post Challenge API is a RESTful service for managing posts. It includes functionalities for creating, reading, updating, and deleting blog entries, as well as retrieving user details.
+The Blog Challenge API is a RESTful service for managing blog posts. It includes functionalities for creating, reading, updating, and deleting blog entries, as well as retrieving user details with thier associated blog post.
 
 ## Features
 
@@ -22,6 +22,7 @@ The Post Challenge API is a RESTful service for managing posts. It includes func
   - Post
   - User
 - [Error Handling](#validation-&-error-handling)
+- [Running Tests](#running-tests)
 - [Contributing](#contributing)
 
 ## Getting Started
@@ -88,7 +89,7 @@ Follow these instructions to set up the project on your local machine.
 
 ## API Endpoints
 
-All endpoints except authentication require a valid JWT token. The token should be included in the **Authorization** header as follows:
+All endpoints except authentication endpoints require a valid JWT token. The token should be included in the **Authorization** header as follows:
 
 ```makefile
 Authorization: Bearer <token>
@@ -394,6 +395,16 @@ The API uses standard HTTP status codes to indicate the success or failure of an
 - 403 Forbidden: The request is understood, but it has been refused or access is not allowed.
 - 404 Not Found: The requested resource could not be found.
 - 409 Conflict: The request could not be completed due to a conflict with the current state of the resource.
+
+## Running Test
+
+Unit test with jest was integrated. To test the application simply run the below command:
+
+```sh
+npm run test
+# or
+yarn run test
+```
 
 ## Contributing
 
