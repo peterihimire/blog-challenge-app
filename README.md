@@ -21,7 +21,7 @@ The Blog Challenge API is a RESTful service for managing blog posts. It includes
   - Authentication
   - Post
   - User
-- [Error Handling](#validation-&-error-handling)
+- [Validation & Error Handling](#validation-&-error-handling)
 - [Running Tests](#running-tests)
 - [Contributing](#contributing)
 
@@ -236,7 +236,7 @@ Authorization: Bearer <token>
   }
   ```
 
-- **Get All Blogs**:
+- **Get All Posts**:
 
 - URL: /api/posts
 - Method: GET
